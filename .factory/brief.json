@@ -1,0 +1,14 @@
+{
+  "slug": "motion-curve-playground",
+  "title": "Motion Feel Lab",
+  "artifact_class": "static-web",
+  "user": "Indie animators and game/UI makers translating a desired motion quality into an editable curve.",
+  "smallest_useful_product": "A static playground with six descriptive motion intents, editable position and rotation curves, onion-path preview, 2/4/8-frame comparison, and CSS/JS export.",
+  "constraints": [
+    "Reduced-motion mode",
+    "Frame-rate-independent preview",
+    "Descriptive labels must not claim universal emotional meaning",
+    "No character rigging, physics simulation, generative animation, or video export"
+  ],
+  "monetization": "free"
+}
