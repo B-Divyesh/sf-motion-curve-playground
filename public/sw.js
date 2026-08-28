@@ -1,8 +1,17 @@
-const CACHE = 'motion-feel-lab-v1';
+const CACHE = 'motion-feel-lab-v2';
 const SHELL = ['/', '/privacy/', '/terms/', '/manifest.webmanifest', '/icon.svg', '/assets/signal-garden-720.webp', '/assets/signal-garden-1200.webp'];
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(SHELL)).then(() => self.skipWaiting()));
+  event.waitUntil((async () => {
+    const cache = await caches.open(CACHE);
+    await cache.addAll(SHELL);
+    const response = await fetch('/');
+    const html = await response.clone().text();
+    await cache.put('/', response);
+    const builtAssets = [...html.matchAll(/(?:src|href)="(\/assets\/[^\"]+)"/g)].map((match) => match[1]);
+    await cache.addAll(builtAssets);
+    await self.skipWaiting();
+  })());
 });
 
 self.addEventListener('activate', (event) => {

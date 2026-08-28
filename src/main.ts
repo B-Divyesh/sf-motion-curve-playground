@@ -98,8 +98,10 @@ app.innerHTML = `
           <path id="active-curve" class="curve-path active" aria-hidden="true" />
           <circle class="curve-node start" cx="20" cy="200" r="4" aria-hidden="true" />
           <circle class="curve-node end" cx="300" cy="80" r="4" aria-hidden="true" />
-          <rect class="curve-handle" id="handle-1" width="16" height="16" rx="2" tabindex="0" role="button" aria-label="First control point" />
-          <rect class="curve-handle" id="handle-2" width="16" height="16" rx="2" tabindex="0" role="button" aria-label="Second control point" />
+          <rect class="curve-handle" id="handle-1" width="44" height="44" rx="2" tabindex="0" role="slider" aria-label="First control point" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0.18" aria-valuetext="" />
+          <rect class="handle-knob" id="handle-knob-1" width="16" height="16" rx="2" aria-hidden="true" />
+          <rect class="curve-handle" id="handle-2" width="44" height="44" rx="2" tabindex="0" role="slider" aria-label="Second control point" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0.24" aria-valuetext="" />
+          <rect class="handle-knob" id="handle-knob-2" width="16" height="16" rx="2" aria-hidden="true" />
           <text x="20" y="275">0%</text><text x="278" y="275">100%</text>
         </svg>
         <div class="curve-inputs" id="curve-inputs">
@@ -204,9 +206,13 @@ function renderCurveEditor(): void {
     const x = curve[valueIndex]!;
     const y = curve[valueIndex + 1]!;
     const handle = requiredElement<SVGRectElement>(`#handle-${handleIndex + 1}`);
-    handle.setAttribute('x', String(mapX(x) - 8));
-    handle.setAttribute('y', String(mapY(y) - 8));
-    handle.setAttribute('aria-label', `${handleIndex === 0 ? 'First' : 'Second'} control point, X ${x.toFixed(2)}, Y ${y.toFixed(2)}. Use arrow keys to adjust.`);
+    handle.setAttribute('x', String(mapX(x) - 22));
+    handle.setAttribute('y', String(mapY(y) - 22));
+    handle.setAttribute('aria-valuenow', x.toFixed(2));
+    handle.setAttribute('aria-valuetext', `X ${x.toFixed(2)}, Y ${y.toFixed(2)}. Left and right adjust X; up and down adjust Y.`);
+    const knob = requiredElement<SVGRectElement>(`#handle-knob-${handleIndex + 1}`);
+    knob.setAttribute('x', String(mapX(x) - 8));
+    knob.setAttribute('y', String(mapY(y) - 8));
   });
 
   curve.forEach((value, index) => {

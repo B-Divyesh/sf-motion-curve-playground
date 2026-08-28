@@ -28,11 +28,11 @@ test('supports the complete tune, compare, and export path', async ({ page }) =>
 });
 
 test('curve handles are adjustable with the keyboard', async ({ page }) => {
-  const firstHandle = page.getByRole('button', { name: /First control point/ }).first();
+  const firstHandle = page.getByRole('slider', { name: 'First control point' }).first();
   await firstHandle.focus();
-  const before = await firstHandle.getAttribute('aria-label');
+  const before = await firstHandle.getAttribute('aria-valuetext');
   await firstHandle.press('ArrowRight');
-  await expect(firstHandle).not.toHaveAttribute('aria-label', before ?? '');
+  await expect(firstHandle).not.toHaveAttribute('aria-valuetext', before ?? '');
 });
 
 test('has no serious accessibility violations', async ({ page }) => {
@@ -61,4 +61,22 @@ test('legal pages are present and semantic', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1, name: 'Privacy' })).toBeVisible();
   await page.goto('/terms/');
   await expect(page.getByRole('heading', { level: 1, name: 'Terms' })).toBeVisible();
+});
+
+test('keeps the complete lab available offline', async ({ page, context }) => {
+  await page.evaluate(async () => { await navigator.serviceWorker.ready; });
+  await page.reload();
+  await context.setOffline(true);
+  await page.reload();
+  await expect(page.getByRole('heading', { name: 'Tune one move' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Play move' })).toBeEnabled();
+  await expect(page.getByText(/Offline mode/)).toBeVisible();
+  await context.setOffline(false);
+});
+
+test('replaces playback with an end-state in reduced-motion mode', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.getByRole('button', { name: 'Play move' }).click();
+  await expect(page.locator('#preview-readout')).toHaveText('t 1.00');
+  await expect(page.getByText(/Reduced motion is on/)).toBeVisible();
 });
