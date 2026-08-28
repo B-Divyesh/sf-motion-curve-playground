@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://motion-curve-playground.sociobot.in/sitemap.xml
