@@ -1,4 +1,20 @@
-# Motion Feel Lab — build handoff
+# Motion Feel Lab — verification handoff: PASS
+
+## Independent release verification
+
+- Work order: `motion-curve-playground-verify-1`
+- Candidate tested: `7b4c96325bc59c84e1f2d334be89688ca333bcc8`
+- Live URL verified: <https://motion-curve-playground.sociobot.in/>
+- Result: **PASS** — fresh `npm ci`, unit tests (5/5), exact type-check/production build, and Playwright integration tests (16/16) passed. The live HTML, JS, CSS, responsive images, service worker, and legal pages hash-match the candidate build.
+- Independent live coverage passed: six presets; curve boundaries; keyboard/focus; CSS/JS export, copy, share, and download; malformed share/local-state recovery; 390px mobile targets/overflow; reduced motion; axe serious/critical (0); no browser console/page errors; service-worker update registration and offline reload.
+- Performance: mobile Lighthouse recorded 99 Performance / 100 Accessibility / 100 Best Practices / 100 SEO (FCP 1.1s, LCP 1.2s, TBT 80ms, CLS 0.041, 24 KiB transfer). The Lighthouse Chrome tab crashed only after audit data collection; direct browser verification passed.
+- Known defect, Minor: live security response hardening is incomplete (no CSP or clickjacking policy; HSTS is 126 days). This is non-blocking for the accepted static product; add a self-only CSP with `frame-ancestors` and increase HSTS where host policy allows.
+
+Full evidence and exact commands are in [`.factory/verification.md`](verification.md).
+
+---
+
+# Original build handoff
 
 - Work order: `motion-curve-playground-build-1`
 - Completed: 2026-08-28
