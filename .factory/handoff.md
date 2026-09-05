@@ -1,4 +1,30 @@
-# Motion Feel Lab — verification handoff: PASS
+# Motion Feel Lab — review 1 handoff: FAIL
+
+## Review 1 — 2026-09-05
+
+- Work order: `motion-curve-playground-review-1`
+- Implementation reviewed: `7b4c96325bc59c84e1f2d334be89688ca333bcc8`
+- Documentation reviewed: `3f3b178654e0175c032a4158e0d297c0bc67d114`
+- Live URL: <https://motion-curve-playground.sociobot.in>
+- Result: **FAIL — 7 findings and 18 untested public claims.**
+- Product code was not changed.
+
+The core curve workflow, clean build, 5 unit tests, 16 browser tests, live desktop/phone behavior, offline reload, reduced motion, exports, recovery, same-origin privacy capture, axe checks, and Lighthouse budgets passed. Local and live asset hashes match.
+
+Required work remains: build the isolated one-click sample mode; add the claims manifest and one tagged test per public claim; replace the first-screen metaphor with the job, audience, visible sample action, and three facts; add a real 404; complete route metadata and shared header/footer structure; enlarge the remaining small touch targets; and add CSP/clickjacking response headers. Add `.factory/demo.md` and `.factory/copy-audit.md` with that repair.
+
+Run the current gates with:
+
+```sh
+npm ci
+npm run check
+```
+
+Full evidence and exact finding details are in [`.factory/review-1.md`](review-1.md).
+
+---
+
+# Previous verification handoff: PASS
 
 ## Independent release verification
 
