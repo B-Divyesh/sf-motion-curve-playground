@@ -4,17 +4,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#090b10" />
-    <meta name="description" content="Turn a motion quality into editable position and rotation curves, compare frame samples, and export the result." />
-    <meta property="og:title" content="Motion Feel Lab" />
-    <meta property="og:description" content="An expressive motion curve instrument for animators and game/UI makers." />
-    <meta property="og:image" content="/assets/signal-garden-1200.webp" />
-    <title>Motion Feel Lab — expressive motion curve playground</title>
+    <meta name="description" content="Edit motion curves, compare 2, 4, and 8 frame samples, and export CSS or JavaScript." />
+    <link rel="canonical" href="https://motion-curve-playground.sociobot.in/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Motion Feel Lab — Edit motion curves" />
+    <meta property="og:description" content="Edit motion curves, compare frame samples, and export CSS or JavaScript." />
+    <meta property="og:url" content="https://motion-curve-playground.sociobot.in/" />
+    <meta property="og:image" content="https://motion-curve-playground.sociobot.in/assets/motion-feel-social.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Motion Feel Lab — Edit motion curves" />
+    <meta name="twitter:description" content="Edit motion curves, compare frame samples, and export CSS or JavaScript." />
+    <meta name="twitter:image" content="https://motion-curve-playground.sociobot.in/assets/motion-feel-social.png" />
+    <title>Motion Feel Lab — Edit motion curves</title>
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
     <link rel="stylesheet" href="/src/styles.css" />
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to the motion lab</a>
+    <a class="skip-link" href="#main">Skip to the motion curve editor</a>
     <div class="noise" aria-hidden="true"></div>
     <header class="site-header">
       <a class="brand" href="/" aria-label="Motion Feel Lab home">
@@ -22,62 +32,83 @@
         <span>Motion Feel Lab</span>
       </a>
       <nav aria-label="Primary navigation">
-        <a href="#lab">Lab</a>
-        <a href="#guide">Guide</a>
+        <a href="/demo">Demo</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="/privacy/">Privacy</a>
       </nav>
     </header>
 
     <main id="main">
       <section class="hero" aria-labelledby="page-title">
         <div class="hero-copy">
-          <p class="eyebrow"><span aria-hidden="true">●</span> Timing instrument 01</p>
-          <h1 id="page-title">Shape the pause.<br /><em>See the feel.</em></h1>
-          <p class="hero-lede">Start from a motion quality, tune position and rotation separately, then inspect exactly what survives at 2, 4, or 8 frames.</p>
-          <a class="button button-primary" href="#lab">Open the lab <span aria-hidden="true">↓</span></a>
-          <p class="hero-note">No account · Runs locally · Exports CSS + JS</p>
+          <p class="eyebrow">Motion curve editor</p>
+          <h1 id="page-title">Edit motion curves for animation</h1>
+          <p class="hero-lede">For indie animators and game or UI makers who need timing to read at a few frames.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="/demo">Try it with sample data <span aria-hidden="true">→</span></a>
+            <span>Loads an Elastic echo sample at 1,200 ms.</span>
+            <a class="button button-secondary" href="#lab">Start a new curve</a>
+          </div>
+          <ul class="hero-facts" aria-label="Product facts">
+            <li>Price: Free</li>
+            <li>Privacy: Curve data stays in your browser</li>
+            <li>Offline: Works after the first visit</li>
+          </ul>
         </div>
         <figure class="hero-art">
           <picture>
             <source media="(max-width: 720px)" srcset="/assets/signal-garden-720.webp" />
-            <img src="/assets/signal-garden-1200.webp" width="1200" height="800" fetchpriority="high" decoding="async" alt="A pixel-art probe leaving onion-skin echoes along a mint motion curve." />
+            <img src="/assets/signal-garden-1200.webp" width="1200" height="800" fetchpriority="high" decoding="async" alt="A pixel-art square follows a mint curve through sampled positions." />
           </picture>
-          <figcaption><span>Signal garden</span><span>continuous → sampled</span></figcaption>
+          <figcaption>Sampled frames and a motion curve</figcaption>
         </figure>
       </section>
 
       <section class="lab-section" id="lab" aria-labelledby="lab-title">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">Live workbench</p>
-            <h2 id="lab-title">Tune one move</h2>
+            <p class="eyebrow">Curve editor</p>
+            <h2 id="lab-title">Edit a motion curve</h2>
           </div>
-          <p>Preset names are starting points, not universal meanings. Your context decides how a move reads.</p>
+          <p>Choose a starting curve, adjust it, then compare the samples.</p>
         </div>
         <div id="app" aria-busy="true">
-          <noscript><div class="state-message"><strong>JavaScript is off.</strong><p>The live curve editor needs JavaScript. Turn it on to use the lab; nothing is sent to a server.</p></div></noscript>
+          <noscript><div class="state-message"><strong>JavaScript is off.</strong><p>Turn on JavaScript to edit a curve. Nothing is sent to a server.</p></div></noscript>
         </div>
       </section>
 
-      <section class="guide" id="guide" aria-labelledby="guide-title">
+      <section class="guide" id="how-it-works" aria-labelledby="guide-title">
         <div class="guide-copy">
-          <p class="eyebrow">A practical loop</p>
-          <h2 id="guide-title">From adjective to evidence</h2>
-          <p>A curve can suggest a quality; it cannot guarantee one. Test the move in context, at its real size and duration.</p>
+          <p class="eyebrow">How it works</p>
+          <h2 id="guide-title">Compare timing before you export</h2>
+          <p>Use each preset as a starting curve. Judge the move in its real context.</p>
         </div>
         <ol class="guide-steps">
-          <li><span>01</span><div><h3>Choose a starting quality</h3><p>Use the six intent presets to avoid staring at an empty graph.</p></div></li>
-          <li><span>02</span><div><h3>Separate travel from turn</h3><p>Position controls distance over time. Rotation can lead, lag, or overshoot it.</p></div></li>
-          <li><span>03</span><div><h3>Inspect the samples</h3><p>If the action must read in four frames, judge the four-frame strip—not only the smooth preview.</p></div></li>
+          <li><span>01</span><div><h3>Choose a starting curve</h3><p>Pick a preset that is close to the motion you need.</p></div></li>
+          <li><span>02</span><div><h3>Adjust travel and turn</h3><p>Edit position and rotation separately with handles or range controls.</p></div></li>
+          <li><span>03</span><div><h3>Compare frame samples</h3><p>Check what is visible at 2, 4, and 8 frames.</p></div></li>
         </ol>
+      </section>
+
+      <section class="limits" aria-labelledby="limits-title">
+        <div>
+          <p class="eyebrow">Privacy and limits</p>
+          <h2 id="limits-title">Keep your curve work local</h2>
+        </div>
+        <div>
+          <p>Your curve values stay in browser storage. The sample demo uses separate storage and leaves normal curves unchanged.</p>
+          <p>No account or tracking request is needed to use the editor. Use your animation tool for scenes, rigs, physics, and video.</p>
+          <a href="/privacy/">Read the privacy details</a>
+        </div>
       </section>
     </main>
 
     <footer>
-      <p>Motion Feel Lab <span aria-hidden="true">↗</span> A free local-first instrument by <a href="https://sociobot.in">Sociobot</a>.</p>
-      <p><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><span>Original AI-generated artwork, 2026.</span></p>
+      <p>Motion Feel Lab edits motion curves and compares frame samples.</p>
+      <p><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><span>Built by Param Factory</span><span>Build 1.1.0</span></p>
     </footer>
 
-    <div class="offline-bar" id="offline-bar" role="status" hidden>Offline mode — the lab still works. Sharing waits until you reconnect.</div>
+    <div class="offline-bar" id="offline-bar" role="status" hidden>Offline mode — the editor still works. Sharing waits until you reconnect.</div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

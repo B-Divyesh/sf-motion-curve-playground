@@ -20,25 +20,44 @@ interface StoredState {
 }
 
 const DEFAULT_PRESET = PRESETS[0]!;
-const STORAGE_KEY = 'motion-feel-lab:v1';
+const DEMO_PRESET = PRESETS.find((preset) => preset.id === 'elastic-echo')!;
+const isDemo = location.pathname === '/demo' || location.pathname === '/demo/' || new URLSearchParams(location.search).get('demo') === '1';
+const STORAGE_KEY = isDemo ? 'demo:motion-feel-lab:v1' : 'motion-feel-lab:v1';
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+function setRouteMetadata(): void {
+  if (!isDemo) return;
+  document.body.classList.add('demo-route');
+  document.title = 'Demo — Motion Feel Lab';
+  const demoUrl = `${location.origin}/demo`;
+  document.querySelector<HTMLLinkElement>('link[rel="canonical"]')?.setAttribute('href', demoUrl);
+  document.querySelector<HTMLMetaElement>('meta[property="og:url"]')?.setAttribute('content', demoUrl);
+  document.querySelector<HTMLElement>('#page-title')!.textContent = 'Edit a sample motion curve';
+}
+
+setRouteMetadata();
 
 const app = document.querySelector<HTMLDivElement>('#app');
 if (!app) throw new Error('Motion lab mount point was not found.');
 
 const state: LabState = {
-  position: DEFAULT_PRESET.position,
-  rotation: DEFAULT_PRESET.rotation,
+  position: (isDemo ? DEMO_PRESET : DEFAULT_PRESET).position,
+  rotation: (isDemo ? DEMO_PRESET : DEFAULT_PRESET).rotation,
   activeCurve: 'position',
   exportKind: 'css',
-  presetId: DEFAULT_PRESET.id,
-  duration: 700,
+  presetId: (isDemo ? DEMO_PRESET : DEFAULT_PRESET).id,
+  duration: isDemo ? 1200 : 700,
 };
 
 app.innerHTML = `
   <div class="lab-status" id="lab-status" role="status" aria-live="polite" hidden></div>
+  ${isDemo ? `
+    <aside class="demo-banner" aria-label="Sample demo controls">
+      <div><strong>Demo — sample data, nothing is saved</strong><span>Sample: Elastic echo, 1,200 ms, with separate position and rotation curves. Free to use.</span></div>
+      <div><button class="button button-quiet" id="reset-demo" type="button">Reset demo</button><button class="button button-primary" id="start-real" type="button">Start for real</button></div>
+    </aside>` : ''}
   <div class="preset-block">
-    <div class="instrument-label"><span>01</span><h3>Choose an intent</h3></div>
+    <div class="instrument-label"><span>01</span><h3>Choose a starting curve</h3></div>
     <div class="preset-grid" role="group" aria-label="Motion intent starting points">
       ${PRESETS.map((preset, index) => `
         <button class="preset" type="button" data-preset="${preset.id}" aria-pressed="${index === 0}">
@@ -98,9 +117,9 @@ app.innerHTML = `
           <path id="active-curve" class="curve-path active" aria-hidden="true" />
           <circle class="curve-node start" cx="20" cy="200" r="4" aria-hidden="true" />
           <circle class="curve-node end" cx="300" cy="80" r="4" aria-hidden="true" />
-          <rect class="curve-handle" id="handle-1" width="44" height="44" rx="2" tabindex="0" role="slider" aria-label="First control point" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0.18" aria-valuetext="" />
+          <rect class="curve-handle" id="handle-1" width="48" height="48" rx="2" tabindex="0" role="slider" aria-label="First control point" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0.18" aria-valuetext="" />
           <rect class="handle-knob" id="handle-knob-1" width="16" height="16" rx="2" aria-hidden="true" />
-          <rect class="curve-handle" id="handle-2" width="44" height="44" rx="2" tabindex="0" role="slider" aria-label="Second control point" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0.24" aria-valuetext="" />
+          <rect class="curve-handle" id="handle-2" width="48" height="48" rx="2" tabindex="0" role="slider" aria-label="Second control point" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0.24" aria-valuetext="" />
           <rect class="handle-knob" id="handle-knob-2" width="16" height="16" rx="2" aria-hidden="true" />
           <text x="20" y="275">0%</text><text x="278" y="275">100%</text>
         </svg>
@@ -119,15 +138,15 @@ app.innerHTML = `
   <section class="comparison-deck" aria-labelledby="comparison-title">
     <div class="panel-heading comparison-heading">
       <div><span class="panel-number">04</span><h3 id="comparison-title">Compare frame samples</h3></div>
-      <p>Same move, three temporal resolutions. Each square is one rendered frame.</p>
+      <p>See the same move at 2, 4, or 8 frames. Each square is one rendered frame.</p>
     </div>
     <div class="comparison-grid" id="comparison-grid"></div>
   </section>
 
   <section class="export-deck" aria-labelledby="export-title">
     <div class="export-copy">
-      <div class="panel-heading"><div><span class="panel-number">05</span><h3 id="export-title">Take it with you</h3></div></div>
-      <p>CSS uses nested elements so travel and turn keep separate timing. JavaScript provides a deterministic sampler for canvas, games, or custom runtimes.</p>
+      <div class="panel-heading"><div><span class="panel-number">05</span><h3 id="export-title">Export this curve</h3></div></div>
+      <p>CSS keeps travel and turn separate. JavaScript samples the same position and rotation curves.</p>
       <button class="button button-secondary" id="share-button" type="button">Copy share link</button>
     </div>
     <div class="code-panel">
@@ -159,6 +178,7 @@ const statusRegion = requiredElement<HTMLDivElement>('#lab-status');
 const comparisonGrid = requiredElement<HTMLDivElement>('#comparison-grid');
 const exportCode = requiredElement<HTMLElement>('#export-code');
 const curveChart = requiredElement<SVGSVGElement>('#curve-chart');
+durationSelect.value = String(state.duration);
 
 let animationFrame = 0;
 let animationStart = 0;
@@ -206,8 +226,8 @@ function renderCurveEditor(): void {
     const x = curve[valueIndex]!;
     const y = curve[valueIndex + 1]!;
     const handle = requiredElement<SVGRectElement>(`#handle-${handleIndex + 1}`);
-    handle.setAttribute('x', String(mapX(x) - 22));
-    handle.setAttribute('y', String(mapY(y) - 22));
+    handle.setAttribute('x', String(mapX(x) - 24));
+    handle.setAttribute('y', String(mapY(y) - 24));
     handle.setAttribute('aria-valuenow', x.toFixed(2));
     handle.setAttribute('aria-valuetext', `X ${x.toFixed(2)}, Y ${y.toFixed(2)}. Left and right adjust X; up and down adjust Y.`);
     const knob = requiredElement<SVGRectElement>(`#handle-knob-${handleIndex + 1}`);
@@ -398,6 +418,16 @@ function saveState(): void {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(stored)); } catch { /* Storage may be unavailable. */ }
 }
 
+function resetToPreset(preset = DEFAULT_PRESET, duration = 700): void {
+  state.position = preset.position;
+  state.rotation = preset.rotation;
+  state.presetId = preset.id;
+  state.duration = duration;
+  durationSelect.value = String(duration);
+  renderAll();
+  saveState();
+}
+
 function applyStored(value: unknown): boolean {
   if (!value || typeof value !== 'object') return false;
   const candidate = value as Partial<StoredState>;
@@ -516,15 +546,20 @@ durationSelect.addEventListener('change', () => {
 });
 
 requiredElement<HTMLButtonElement>('#reset-button').addEventListener('click', () => {
-  state.position = DEFAULT_PRESET.position;
-  state.rotation = DEFAULT_PRESET.rotation;
-  state.presetId = DEFAULT_PRESET.id;
-  state.duration = 700;
-  durationSelect.value = '700';
-  renderAll();
-  saveState();
+  resetToPreset();
   announce('Curve reset to Soft arrival.');
 });
+
+if (isDemo) {
+  requiredElement<HTMLButtonElement>('#reset-demo').addEventListener('click', () => {
+    resetToPreset(DEMO_PRESET, 1200);
+    announce('Demo reset to the Elastic echo sample.');
+  });
+  requiredElement<HTMLButtonElement>('#start-real').addEventListener('click', () => {
+    try { localStorage.removeItem(STORAGE_KEY); } catch { /* Storage may be unavailable. */ }
+    location.assign('/');
+  });
+}
 
 document.querySelectorAll<HTMLButtonElement>('[data-export]').forEach((button) => {
   button.addEventListener('click', () => {

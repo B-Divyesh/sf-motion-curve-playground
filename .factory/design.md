@@ -68,3 +68,9 @@ No generic gradients. Very shallow color bands are allowed inside the generated 
 Review checklist: reject visible text, logos, unintended symbols, muddy antialiasing, misleading UI affordances, or palette drift. Final responsive WebP must be ≤300 KB.
 
 All functional icons and curve drawings are original inline SVG/CSS geometry authored in this repository; no icon library or third-party runtime asset is used.
+
+## Derived sharing assets
+
+- `public/assets/motion-feel-social.png` is a 1200 × 630 center crop of the approved `signal-garden-1200.webp` artwork. It preserves the mint curve, sampled apricot probe, and CRT field for social cards without adding text or a new visual claim.
+- `public/apple-touch-icon.png` is a 180 × 180 center crop of the same approved product artwork.
+- Both were composed locally on 2026-09-05 from the original generated asset. No additional model output, stock asset, logo, or third-party image was used.

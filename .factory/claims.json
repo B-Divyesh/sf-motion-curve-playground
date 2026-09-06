@@ -1,0 +1,114 @@
+[
+  {
+    "id": "sample-demo",
+    "claim": "Opening the demo loads an Elastic echo sample at 1,200 ms with reset and exit controls.",
+    "where": "landing action, /demo",
+    "test": "npm run test:e2e -- --grep @claim:sample-demo",
+    "sandbox": "fresh browser context opens /demo and checks its populated curve, duration, banner, Reset demo, and Start for real controls"
+  },
+  {
+    "id": "demo-isolation",
+    "claim": "Demo edits do not change normal curve data.",
+    "where": "/demo banner, landing privacy section, privacy page",
+    "test": "npm run test:e2e -- --grep @claim:demo-isolation",
+    "sandbox": "fresh browser context seeds normal browser storage, changes the demo curve, and checks only demo storage changed"
+  },
+  {
+    "id": "six-presets",
+    "claim": "The editor provides six selectable starting curves.",
+    "where": "editor, README",
+    "test": "npm run test:e2e -- --grep @claim:six-presets",
+    "sandbox": "fresh /demo selects every named preset and checks the active curve output"
+  },
+  {
+    "id": "curve-editing",
+    "claim": "Position and rotation curves can be adjusted with range controls and keyboard handles.",
+    "where": "editor, README",
+    "test": "npm run test:e2e -- --grep @claim:curve-editing",
+    "sandbox": "fresh /demo edits rotation with a range control and keyboard-adjusts a graph handle"
+  },
+  {
+    "id": "frame-comparison",
+    "claim": "The editor shows the same curve at 2, 4, and 8 frames.",
+    "where": "landing, editor, README",
+    "test": "npm run test:e2e -- --grep @claim:frame-comparison",
+    "sandbox": "fresh /demo checks the accessible frame strips and their rendered sample counts"
+  },
+  {
+    "id": "css-export",
+    "claim": "CSS export reflects the selected curves and duration.",
+    "where": "editor, README",
+    "test": "npm run test:e2e -- --grep @claim:css-export",
+    "sandbox": "fresh /demo selects Even glide and 1,800 ms, then checks both generated CSS animations"
+  },
+  {
+    "id": "javascript-export",
+    "claim": "JavaScript export provides a sampler for the selected position and rotation curves.",
+    "where": "editor, README",
+    "test": "npm run test:e2e -- --grep @claim:javascript-export",
+    "sandbox": "fresh /demo switches to JavaScript and checks the generated sampler output"
+  },
+  {
+    "id": "file-download",
+    "claim": "An export can be downloaded as a file.",
+    "where": "editor, README",
+    "test": "npm run test:e2e -- --grep @claim:file-download",
+    "sandbox": "fresh /demo downloads the CSS export and checks its filename and completion message"
+  },
+  {
+    "id": "share-link",
+    "claim": "A share link contains the selected curve values.",
+    "where": "editor, README",
+    "test": "npm run test:e2e -- --grep @claim:share-link",
+    "sandbox": "fresh /demo copies a share link and checks its demo path and curve fragment"
+  },
+  {
+    "id": "share-fragment",
+    "claim": "Share values stay in the URL fragment and are not sent in HTTP requests.",
+    "where": "privacy page, README",
+    "test": "npm run test:e2e -- --grep @claim:share-fragment",
+    "sandbox": "fresh /demo opens a copied share link while recording requests and checks that no request URL contains a fragment"
+  },
+  {
+    "id": "offline-reload",
+    "claim": "The sample editor works offline after the first visit.",
+    "where": "landing facts, README",
+    "test": "npm run test:e2e -- --grep @claim:offline-reload",
+    "sandbox": "a dedicated fresh browser context visits /demo, activates the service worker, goes offline, and reloads"
+  },
+  {
+    "id": "reduced-motion",
+    "claim": "Reduced motion shows the end state instead of continuous playback.",
+    "where": "README",
+    "test": "npm run test:e2e -- --grep @claim:reduced-motion",
+    "sandbox": "fresh /demo emulates reduced motion and plays the sample"
+  },
+  {
+    "id": "small-screen",
+    "claim": "The sample editor fits a 390 pixel viewport.",
+    "where": "README",
+    "test": "npm run test:e2e -- --grep @claim:small-screen",
+    "sandbox": "fresh /demo opens in a 390 by 844 mobile browser and checks for no horizontal overflow"
+  },
+  {
+    "id": "free-price",
+    "claim": "Motion Feel Lab is free to use.",
+    "where": "landing facts, demo banner, terms",
+    "test": "npm run test:e2e -- --grep @claim:free-price",
+    "sandbox": "fresh /demo verifies the displayed free price statement"
+  },
+  {
+    "id": "no-account",
+    "claim": "The sample editor opens without an account.",
+    "where": "landing privacy section, privacy page",
+    "test": "npm run test:e2e -- --grep @claim:no-account",
+    "sandbox": "fresh /demo uses play and copy controls without authentication"
+  },
+  {
+    "id": "local-privacy",
+    "claim": "Sample use makes no request outside this site.",
+    "where": "landing privacy section, privacy page, README",
+    "test": "npm run test:e2e -- --grep @claim:local-privacy",
+    "sandbox": "fresh /demo records every request while selecting and playing a curve and allows only the current origin"
+  }
+]

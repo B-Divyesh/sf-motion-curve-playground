@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#090b10" />
+    <meta name="description" content="Try a sample motion curve, compare frame samples, and export CSS or JavaScript." />
+    <link rel="canonical" href="https://motion-curve-playground.sociobot.in/demo" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Demo — Motion Feel Lab" />
+    <meta property="og:description" content="Try a sample motion curve, compare frame samples, and export CSS or JavaScript." />
+    <meta property="og:url" content="https://motion-curve-playground.sociobot.in/demo" />
+    <meta property="og:image" content="https://motion-curve-playground.sociobot.in/assets/motion-feel-social.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Demo — Motion Feel Lab" />
+    <meta name="twitter:description" content="Try a sample motion curve, compare frame samples, and export CSS or JavaScript." />
+    <meta name="twitter:image" content="https://motion-curve-playground.sociobot.in/assets/motion-feel-social.png" />
+    <title>Demo — Motion Feel Lab</title>
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body class="demo-route">
+    <a class="skip-link" href="#main">Skip to the sample editor</a>
+    <div class="noise" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Motion Feel Lab home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>Motion Feel Lab</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="/demo" aria-current="page">Demo</a>
+        <a href="/#how-it-works">How it works</a>
+        <a href="/privacy/">Privacy</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero-copy">
+          <p class="eyebrow">Sample motion curve</p>
+          <h1 id="page-title">Edit a sample motion curve</h1>
+          <p class="hero-lede">Try a populated curve before making one for your own animation.</p>
+        </div>
+      </section>
+
+      <section class="lab-section" id="lab" aria-labelledby="lab-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Curve editor</p>
+            <h2 id="lab-title">Edit the sample curve</h2>
+          </div>
+          <p>Change the sample, then reset it or start with your own curve.</p>
+        </div>
+        <div id="app" aria-busy="true">
+          <noscript><div class="state-message"><strong>JavaScript is off.</strong><p>Turn on JavaScript to edit the sample curve. Nothing is sent to a server.</p></div></noscript>
+        </div>
+      </section>
+
+      <section class="guide" id="how-it-works" aria-labelledby="guide-title">
+        <div class="guide-copy">
+          <p class="eyebrow">How it works</p>
+          <h2 id="guide-title">Compare timing before you export</h2>
+          <p>Use each preset as a starting curve. Judge the move in its real context.</p>
+        </div>
+        <ol class="guide-steps">
+          <li><span>01</span><div><h3>Choose a starting curve</h3><p>Pick a preset that is close to the motion you need.</p></div></li>
+          <li><span>02</span><div><h3>Adjust travel and turn</h3><p>Edit position and rotation separately with handles or range controls.</p></div></li>
+          <li><span>03</span><div><h3>Compare frame samples</h3><p>Check what is visible at 2, 4, and 8 frames.</p></div></li>
+        </ol>
+      </section>
+    </main>
+
+    <footer>
+      <p>Motion Feel Lab edits motion curves and compares frame samples.</p>
+      <p><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><span>Built by Param Factory</span><span>Build 1.1.0</span></p>
+    </footer>
+
+    <div class="offline-bar" id="offline-bar" role="status" hidden>Offline mode — the editor still works. Sharing waits until you reconnect.</div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

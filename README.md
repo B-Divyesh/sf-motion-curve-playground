@@ -1,19 +1,25 @@
 # Motion Feel Lab
 
-Motion Feel Lab is a local-first timing instrument for indie animators and game/UI makers. It turns a descriptive motion quality into editable position and rotation curves, shows the same move as 2-, 4-, and 8-frame samples, and exports production-ready CSS or a deterministic JavaScript sampler.
+Edit motion curves for animation. It is for indie animators and game or UI makers who need timing to read at a few frames.
 
-Live site: <https://motion-curve-playground.sociobot.in>
+Try the one-click sample at <https://motion-curve-playground.sociobot.in/demo>. It opens an Elastic echo curve at 1,200 ms in separate demo storage.
 
 ## What it does
 
-- Six descriptive intent presets: Soft arrival, Held departure, Heavy settle, Quick response, Elastic echo, and Even glide.
-- Separate position and rotation cubic-bezier curves with direct handle dragging, keyboard adjustment, and labeled range inputs.
-- Frame-rate-independent live preview plus static onion-skin path.
-- Side-by-side 2/4/8-frame sampling to expose what survives at low temporal resolution.
-- CSS and JavaScript export, file download, and URL-based sharing.
-- Local persistence, offline shell, reduced-motion behavior, and responsive 390px layout.
+- Provides six selectable starting curves.
+- Edits position and rotation curves with range controls and keyboard-adjustable graph handles.
+- Compares the same curve at 2, 4, and 8 frames.
+- Exports CSS and JavaScript, downloads an export file, and copies a share link.
+- Works offline after the first visit and respects reduced-motion preferences.
+- Fits a 390 pixel mobile viewport.
 
-Preset language is deliberately suggestive rather than universal: the real meaning of a curve depends on the object, distance, duration, sound, and surrounding action. Character rigging, physics simulation, generative animation, and video export are outside the v1 scope.
+Use it to compare timing, then use your animation tool for scenes and video.
+
+## Demo and privacy
+
+`/demo` is the documented sandbox route. It loads a realistic Elastic echo sample with position and rotation curves at 1,200 ms. Its data uses the `demo:motion-feel-lab:v1` browser-storage key. Demo edits cannot change `motion-feel-lab:v1`, the normal editor key. **Reset demo** restores the sample. **Start for real** discards the demo key and opens the normal editor.
+
+No account is needed for the sample. Curve values, exports, and settings are not sent outside this site during the sample flow. A copied share link carries curve values in its URL fragment, not in an HTTP request. The full user-facing disclosure is on [/privacy/](/privacy/).
 
 ## Run locally
 
@@ -24,37 +30,32 @@ npm ci
 npm run dev
 ```
 
-Vite prints the local development URL. There are no runtime API keys or third-party services.
+Vite prints the local URL. Use `/demo` to open the sample sandbox.
 
 ## Test and build
 
 ```sh
-npm test          # curve math unit tests
-npm run build     # type-check and build to ./dist
-npm run test:e2e  # Chromium desktop/mobile flows + axe scan
-npm run check     # all of the above
+npm test
+npm run build
+npm run test:e2e
+npm run check
 ```
 
-Playwright is pinned to `1.58.2`. In a new environment, install its Chromium binary if one is not already provided:
+`npm run test:e2e` builds the site and runs Chromium desktop and 390px mobile checks through the Azure Static Web Apps emulator. The emulator verifies the configured 404 response and security headers. Playwright 1.58.2 is pinned. If Chromium is not available, run:
 
 ```sh
 npx playwright install chromium
 ```
 
-The deployment build command is exactly `npm run build`. The static output is `dist/`, with `dist/index.html` at its root and standalone `/privacy/` and `/terms/` documents. `public/staticwebapp.config.json` supplies Azure Static Web Apps routing, security headers, and cache policy.
+Every visitor-facing product claim is listed in [`.factory/claims.json`](.factory/claims.json). Each entry gives its own clean command and demo-only browser sandbox.
 
-## Keyboard use
+## Deploy
 
-- Tab reaches every control; Enter or Space activates buttons.
-- Left/Right switches the Position/Rotation and CSS/JavaScript tab sets.
-- Arrow keys adjust a focused graph handle; hold Shift for larger steps.
-- Standard arrow keys adjust the four labeled range inputs.
+Run `npm run build`. It produces `dist/` with `index.html` at its root. Deploy `dist/` as this product’s Azure Static Web Apps artifact. `public/staticwebapp.config.json` supplies navigation fallback, the intentional 404 response, caching, and response headers.
 
-## Privacy and assets
+## Design and assets
 
-There is no account, analytics, advertising, or third-party runtime script. The most recent curve is stored in browser local storage; share links carry curve values in the URL fragment, which is not sent in HTTP requests. See [`privacy/index.html`](privacy/index.html) for the user-facing policy.
-
-The hero illustration is an original AI-generated asset commissioned for this product. Its prompt, review notes, source, and generated sidecar live in `assets/src/`; optimized WebP derivatives ship from `public/assets/`. The complete product-specific visual system is documented in [`.factory/design.md`](.factory/design.md).
+The Signal Garden visual system is documented in [`.factory/design.md`](.factory/design.md). The hero artwork is an original product asset. Its prompt and source material are in `assets/src/`; responsive WebP versions and the social crop ship from `public/assets/`.
 
 ## License
 

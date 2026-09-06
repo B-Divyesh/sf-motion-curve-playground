@@ -1,0 +1,1 @@
+Edit motion curves and compare frame samples before exporting CSS or JavaScript.

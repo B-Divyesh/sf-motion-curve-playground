@@ -1,5 +1,5 @@
-const CACHE = 'motion-feel-lab-v2';
-const SHELL = ['/', '/privacy/', '/terms/', '/manifest.webmanifest', '/icon.svg', '/assets/signal-garden-720.webp', '/assets/signal-garden-1200.webp'];
+const CACHE = 'motion-feel-lab-v3';
+const SHELL = ['/', '/demo', '/privacy/', '/terms/', '/404.html', '/manifest.webmanifest', '/icon.svg', '/apple-touch-icon.png', '/assets/signal-garden-720.webp', '/assets/signal-garden-1200.webp'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
