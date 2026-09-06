@@ -4,7 +4,7 @@
 
 - Work order: `motion-curve-playground-repair-1`
 - Implementation and deployed artifact SHA: `fe17b8b0628e30a140d25f217270b9663174e490`
-- Documentation baseline SHA: `fe17b8b0628e30a140d25f217270b9663174e490`
+- Verification documentation SHA: `a03171b2533734da46388120f64963edc36a7855` (report-only; no product image change)
 - Live URL: <https://motion-curve-playground.sociobot.in>
 - Product class: static web; no backend, billing offer, account, or external integration.
 - Result: **PASS** — all seven review findings are resolved and every documented public claim has a demo-sandbox check.
