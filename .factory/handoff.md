@@ -1,4 +1,61 @@
-# Motion Feel Lab — review 1 handoff: FAIL
+# Motion Feel Lab — repair 1 handoff: PASS
+
+## Repair release — 2026-09-06
+
+- Work order: `motion-curve-playground-repair-1`
+- Implementation and deployed artifact SHA: `fe17b8b0628e30a140d25f217270b9663174e490`
+- Documentation baseline SHA: `fe17b8b0628e30a140d25f217270b9663174e490`
+- Live URL: <https://motion-curve-playground.sociobot.in>
+- Product class: static web; no backend, billing offer, account, or external integration.
+- Result: **PASS** — all seven review findings are resolved and every documented public claim has a demo-sandbox check.
+
+### What changed
+
+- Added a direct `/demo` page with an Elastic echo sample at 1,200 ms, a persistent “Demo — sample data, nothing is saved” banner, **Reset demo**, and **Start for real**.
+- Demo state uses `demo:motion-feel-lab:v1`; normal state uses `motion-feel-lab:v1`. The demo never reads or writes normal state.
+- Rewrote the first screen in plain words. It now states the job, audience, visible sample action, and separate price/privacy/offline facts before scrolling at 390px and desktop sizes.
+- Added `.factory/claims.json`, `.factory/demo.md`, `.factory/copy-audit.md`, and 16 tagged browser claim checks. Claims use the real demo route and observable outcomes.
+- Added a standalone `/demo` document, route-specific metadata, social image, Apple touch icon, sitemap entry, consistent header/footer, legal navigation, and a product-specific 404 document.
+- Replaced fallback-to-home unknown routes with a deliberate HTTP 404 response. Added self-only CSP, `frame-ancestors 'none'`, `X-Frame-Options: DENY`, and one-year HSTS configuration.
+- Increased graph-handle hit areas and kept Privacy available in the compact mobile header.
+
+### Verification
+
+Clean setup and local checks:
+
+```sh
+npm ci
+npm audit --omit=dev
+npm run check
+```
+
+- `npm audit --omit=dev`: 0 production vulnerabilities.
+- `npm run check`: 5 Vitest unit checks and 24 Playwright checks passed.
+- Each of the 16 commands in `.factory/claims.json` was run separately; all passed. The final full suite exercises all 16 again.
+- Production build: 20.75 KB JS (7.22 KB gzip) and 20.04 KB CSS (5.04 KB gzip). The initial app assets remain below the static-product budgets.
+- Static Web Apps emulator: `/demo` is HTTP 200 and an unknown path is HTTP 404 with the designed page. The configured CSP, clickjacking policy, and cache policy were observed as response headers.
+- Worker URL verifier passed locally and on HTTPS. It found zero console/page errors, one `h1`, `lang="en"`, a `main` landmark, complete image alt attributes, and labelled buttons.
+
+Live checks on the deployed implementation:
+
+- `GET /`: 200, title `Motion Feel Lab — Edit motion curves`; live HTML SHA-256 matches `dist/index.html`.
+- `GET /demo`: 200, title `Demo — Motion Feel Lab`.
+- `GET /definitely-missing-review-1`: 404, title `Page not found — Motion Feel Lab`.
+- Fresh desktop (1366 × 900) and phone (390 × 844) contexts showed the job, audience, and **Try it with sample data** action before scrolling. The action ended at 687px desktop and 397px phone.
+- In both fresh contexts, the sample loaded with the persistent banner, 1,200 ms duration, and Elastic echo selected. Changing it, resetting it, and checking a pre-seeded normal curve proved normal storage was unchanged. No console errors appeared.
+- Live axe scans of `/`, `/demo`, `/privacy/`, `/terms/`, and the 404 page found 0 serious/critical violations.
+- HTTPS responses now contain CSP with `frame-ancestors 'none'`, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, strict referrer policy, and HSTS `max-age=31536000; includeSubDomains`.
+
+Evidence is under `/work/.evidence/verify-local/` and `/work/.evidence/verify-live/`.
+
+### Known gaps and next steps
+
+- No product defects are known. Browser automation covers Chromium; the UI uses standard browser APIs, but Safari and Firefox are not separately automated in this worker image.
+- The product is intentionally free. There is no paid offer or billing-registration dependency.
+
+---
+
+# Archived review and verification history
 
 ## Review 1 — 2026-09-05
 
