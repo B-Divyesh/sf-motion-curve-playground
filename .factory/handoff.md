@@ -1,3 +1,22 @@
+# Edit motion curves for animation — verification 2 handoff: FAIL
+
+## Independent verification — 2026-09-06
+
+- Work order: `motion-curve-playground-verify-2`
+- Implementation reviewed: `fe17b8b0628e30a140d25f217270b9663174e490`
+- Documentation and test revision reviewed: `af4bcb3f8e98c7090bf4be777ca0d8234b4c7f4b`
+- Live URL: <https://motion-curve-playground.sociobot.in>
+- Result: **FAIL — 1 Minor finding and 0 untested claims.**
+- Product code was not changed.
+
+The full curve workflow, isolated sample, reset and exit, normal-data protection, invalid and boundary recovery, keyboard operation, reduced motion, offline reload, live privacy capture, all routes, security headers, and deployment parity pass. All 17 declared claim commands pass separately from a fresh clone. The full suite passes 5 unit and 25 browser checks. Live axe scans report 0 serious or critical violations. Mobile Lighthouse performance is 99.
+
+One earlier issue remains: at 390 px, the footer **Terms** link is 38.30 by 44 CSS pixels. The attached contract requires a 44 by 44 minimum, so the product cannot receive PASS yet. Increase its horizontal target area and rerun the phone target measurement, the full suite, and the live parity check after deployment.
+
+Full report: [`.factory/verification-2.md`](verification-2.md). Evidence is under `/work/.evidence/verify-2/`.
+
+---
+
 # Motion Feel Lab — repair 1 handoff: PASS
 
 ## Repair release — 2026-09-06
