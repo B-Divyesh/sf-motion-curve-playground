@@ -14,7 +14,7 @@
 - Added a direct `/demo` page with an Elastic echo sample at 1,200 ms, a persistent “Demo — sample data, nothing is saved” banner, **Reset demo**, and **Start for real**.
 - Demo state uses `demo:motion-feel-lab:v1`; normal state uses `motion-feel-lab:v1`. The demo never reads or writes normal state.
 - Rewrote the first screen in plain words. It now states the job, audience, visible sample action, and separate price/privacy/offline facts before scrolling at 390px and desktop sizes.
-- Added `.factory/claims.json`, `.factory/demo.md`, `.factory/copy-audit.md`, and 16 tagged browser claim checks. Claims use the real demo route and observable outcomes.
+- Added `.factory/claims.json`, `.factory/demo.md`, `.factory/copy-audit.md`, and 17 tagged browser claim checks. Claims use the real demo route and observable outcomes.
 - Added a standalone `/demo` document, route-specific metadata, social image, Apple touch icon, sitemap entry, consistent header/footer, legal navigation, and a product-specific 404 document.
 - Replaced fallback-to-home unknown routes with a deliberate HTTP 404 response. Added self-only CSP, `frame-ancestors 'none'`, `X-Frame-Options: DENY`, and one-year HSTS configuration.
 - Increased graph-handle hit areas and kept Privacy available in the compact mobile header.
@@ -30,8 +30,8 @@ npm run check
 ```
 
 - `npm audit --omit=dev`: 0 production vulnerabilities.
-- `npm run check`: 5 Vitest unit checks and 24 Playwright checks passed.
-- Each of the 16 commands in `.factory/claims.json` was run separately; all passed. The final full suite exercises all 16 again.
+- `npm run check`: 5 Vitest unit checks and 25 Playwright checks passed.
+- The 16 original claim commands and the added local-persistence command were run separately; all passed. The final full suite exercises all 17 again.
 - Production build: 20.75 KB JS (7.22 KB gzip) and 20.04 KB CSS (5.04 KB gzip). The initial app assets remain below the static-product budgets.
 - Static Web Apps emulator: `/demo` is HTTP 200 and an unknown path is HTTP 404 with the designed page. The configured CSP, clickjacking policy, and cache policy were observed as response headers.
 - Worker URL verifier passed locally and on HTTPS. It found zero console/page errors, one `h1`, `lang="en"`, a `main` landmark, complete image alt attributes, and labelled buttons.

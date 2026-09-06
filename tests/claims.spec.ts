@@ -40,6 +40,19 @@ test('@claim:demo-isolation Demo edits leave normal curve data unchanged', async
   expect(storage.demo).not.toBeNull();
 });
 
+test('@claim:local-persistence Normal curve settings persist in browser storage', async () => {
+  await demoPage.getByRole('button', { name: 'Start for real' }).click();
+  await demoPage.waitForURL(/\/$/);
+  await demoPage.getByRole('button', { name: 'Even glide' }).click();
+  await demoPage.locator('#duration').selectOption('1800');
+  await demoPage.reload();
+  await expect(demoPage.getByRole('button', { name: 'Even glide' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(demoPage.locator('#duration')).toHaveValue('1800');
+  await demoPage.getByRole('button', { name: 'Reset curve' }).click();
+  await expect(demoPage.getByRole('button', { name: 'Soft arrival' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(demoPage.locator('#duration')).toHaveValue('700');
+});
+
 test('@claim:six-presets The editor provides six selectable starting curves', async () => {
   const names = ['Soft arrival', 'Held departure', 'Heavy settle', 'Quick response', 'Elastic echo', 'Even glide'];
   for (const name of names) {

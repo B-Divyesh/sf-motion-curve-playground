@@ -14,6 +14,13 @@
     "sandbox": "fresh browser context seeds normal browser storage, changes the demo curve, and checks only demo storage changed"
   },
   {
+    "id": "local-persistence",
+    "claim": "Normal curve settings persist in this browser and Reset curve restores the default.",
+    "where": "privacy page, editor",
+    "test": "npm run test:e2e -- --grep @claim:local-persistence",
+    "sandbox": "fresh browser context starts at /demo, uses Start for real, saves a normal curve, reloads, then resets it"
+  },
+  {
     "id": "six-presets",
     "claim": "The editor provides six selectable starting curves.",
     "where": "editor, README",
